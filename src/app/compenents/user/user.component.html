@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table .table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <tr *ngFor="let user of users; let index= index">
+                    <th scope="col">{{index}}</th>
+                    <th scope="col">{{user.firstName}}</th>
+                    <th scope="col">{{user.lastName}}</th>
+                    <th scope="col"><a [routerLink]="['/detailsUsers', user.id]">link 1</a></th>
+                  </tr>
+
+
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
