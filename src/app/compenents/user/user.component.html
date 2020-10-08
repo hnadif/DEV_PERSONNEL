@@ -1,5 +1,122 @@
 <div class="container">
-    <div class="row">
+  <div class="row">
+  <div class="col-md-8">
+    <div class="input-group mt-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Search</span>
+      </div>
+      <input 
+        type="text" 
+        [(ngModel)]="searchText" 
+        class="form-control" 
+        placeholder="ex:firstName" 
+        aria-label="Username" 
+        aria-describedby="basic-addon1">
+    </div>
+    
+  </div>
+  <div class="col-md-4 mt-3">
+    <button 
+    *ngIf="!showForm" 
+    type="button" 
+    class="btn btn-outline-info" 
+    (click)="formAddUser()">
+
+      <i class="fa fa-plus" >
+        Add user
+      </i>
+
+    </button>
+    <button 
+      *ngIf="showForm" 
+      type="button" 
+      class="btn btn-outline-danger" 
+      (click)="hideFormAddUser()"> 
+
+      <i class="fa fa-minus">
+        Hide user
+      </i>
+    </button>
+  </div>
+  </div>
+  <div *ngIf="showForm">
+    <h2 *ngIf="!isEditForm"  class="text-md-center mt-3">
+      Add New User
+    </h2>
+    <h2 *ngIf="isEditForm" class="text-md-center mt-3">
+      Update User
+    </h2>
+</div>
+  <div *ngIf="showForm" class="row mt-2">
+
+    <div class="col-md-12">
+      <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm.value)">
+
+          <div class="form-group">
+            <label for="firstName" 
+            [ngStyle]="(!firstNameControl.valid&&firstNameControl.touched) ?
+                      {'color': 'red'}:{'color': ''}">
+            First Name
+          </label>
+          <input hidden name="id" [(ngModel)]="userData.id">
+            <input 
+              id="firstName"
+              required 
+              minlength="4" 
+              maxlength="10" 
+              name="firstName" 
+              type="text" 
+              class="form-control"
+              [(ngModel)]="userData.firstName" 
+              #firstNameControl="ngModel">
+            <div 
+              *ngIf="!firstNameControl.valid && firstNameControl.touched" 
+              class="alert alert-danger">
+              <div *ngIf="firstNameControl.errors.required">
+                FirstName is required.
+              </div>
+              <div *ngIf="firstNameControl.errors.minlength">
+                FirstName must be at least
+                 {{firstNameControl.errors.minlength.requiredLength}} characters long.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label [ngStyle]="(!lastNameControl.valid&&lastNameControl.touched) ?{'color': 'red'}:{'color': ''}" for="lastName">Last Name</label>
+            <input 
+              id="lastName"
+              required
+              minlength="4" 
+              maxlength="10"
+              name="lastName" 
+              type="text" 
+              class="form-control"
+              [(ngModel)]="userData.lastName" 
+              #lastNameControl="ngModel">
+            <div 
+              *ngIf="!lastNameControl.valid && lastNameControl.touched" 
+              class="alert alert-danger">
+              <div *ngIf="lastNameControl.errors.required">
+                LastName is required.
+              </div>
+              <div *ngIf="lastNameControl.errors.minlength">
+                LastName must be at least
+                {{lastNameControl.errors.minlength.requiredLength}} characters long.
+              </div>
+            </div>
+          </div>
+          <button *ngIf="!isEditForm" type="submit" class="btn btn-success btn-block">
+            <i class="fa fa-send"></i> New User</button>
+          <button *ngIf="isEditForm" type="submit" class="btn btn-warning btn-block">
+            <i class="fa fa-refresh"></i> Update User</button>
+          
+       
+      </form>
+    </div>
+  </div>
+  
+
+    <div class="row mt-3">
         <div class="col-md-12">
             <table class="table .table-hover">
                 <thead>
@@ -7,16 +124,31 @@
                     <th scope="col">#</th>
                     <th scope="col">First</th>
                     <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Details</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
 
-                  <tr *ngFor="let user of users; let index= index">
+                  <tr *ngFor="let user of users | filter: searchText; let index = index">
                     <th scope="col">{{index}}</th>
                     <th scope="col">{{user.firstName}}</th>
                     <th scope="col">{{user.lastName}}</th>
-                    <th scope="col"><a [routerLink]="['/detailsUsers', user.id]">link 1</a></th>
+                    <th scope="col">
+                      <a [routerLink]="['/detailsUsers', user.id]" 
+                         class="btn btn-secondary btn-sm active" 
+                         role="button" aria-pressed="true">
+                         Details
+                      </a>
+                    </th>
+                    <th>
+                      <a class="btn" (click)="updateForm(user)">
+                        <i class="fa fa-edit"></i>
+                      </a>
+                      <a class="btn" (click)="deleteUser(user.id)">
+                        <i class="fa fa-remove"></i> 
+                      </a>
+                     </th>
                   </tr>
 
 

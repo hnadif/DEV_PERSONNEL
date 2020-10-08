@@ -8,7 +8,9 @@ const routes: Routes = [
   {path:'index',component:UserComponent},
   {path:'auth',component:AuthComponent},
   {path:'detailsUsers/:id',component:DetailsComponent},
-  {path:'user',component:UserComponent}
+  {path:'user',component: UserComponent},
+  {path:'delete/:id',component:UserComponent},
+  {path:'**',component:UserComponent},
 ];
 
 @NgModule({

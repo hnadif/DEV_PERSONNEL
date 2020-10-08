@@ -1,7 +1,18 @@
-<!-- As a link -->
-<nav class="navbar navbar-light bg-danger">
-  <a class="navbar-brand" routerLink="index" >Accueil</a>
-  <a class="navbar-brand" routerLink="user">User</a>
-  <a class="navbar-brand" routerLink="auth">Page3</a>
-</nav> 
-<router-outlet></router-outlet>
+<app-nav></app-nav>
+
+<div class="container">
+    <router-outlet></router-outlet>
+
+
+  <div class="row">
+    <div class="col text-center">
+      <a (click)="changeState('state2')" class="btn btn-danger">change  tp state2</a>
+    </div>
+    <div class="col text-center">
+      <a (click)="changeState('state1')" class="btn btn-info">change  tp state2</a>
+    </div>
+  </div>
+  <div class="row justify-content-center align-items-center">
+    <app-animation [currentState]="toState"></app-animation>
+  </div>
+</div>

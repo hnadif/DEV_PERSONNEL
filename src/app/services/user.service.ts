@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class UserService {
+  
+  constructor() { }
 
   users = [
     {
@@ -37,5 +39,29 @@ export class UserService {
    return users;
   }
 
-  constructor() { }
+
+  deleteUser(id: number) {
+    let i = this.users.findIndex(e => e.id === id);
+    if(i > -1){
+      this.users.splice(i,1);
+    }
+      
+  }
+
+  isExist(id: number){
+    let i = this.users.findIndex(e => e.id === id);
+    if(i > -1){
+      return true;
+    }
+    return false;
+  }
+
+  updateUser(userToUpdated: any){
+    let i = this.users.findIndex(e => e.id === userToUpdated.id);
+    if(i > -1){
+      console.log('userToUpdated"',userToUpdated);
+      console.log(this.users[i])
+      this.users[i] = userToUpdated;
+    }
+  }
 }
